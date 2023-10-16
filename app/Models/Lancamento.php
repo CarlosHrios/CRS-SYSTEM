@@ -14,6 +14,7 @@ class Lancamento extends Model
         'convenio',
         'servico',
         'dia_hora',
+        'confirmacao',
         'telefone',
         'valor',
         'mes',

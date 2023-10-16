@@ -1322,7 +1322,7 @@ section {
 }
 
 .gallery .swiper-pagination {
-  margin-top: 20px;
+  margin-top:-40%;
   position: relative;
 }
 

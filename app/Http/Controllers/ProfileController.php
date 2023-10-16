@@ -15,6 +15,8 @@ use App\Models\Calendar;
 use App\Models\Lancamento;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -69,21 +71,17 @@ class ProfileController extends Controller
     {
         $rules = [
             'nome' => 'required',
-            'convenio' => 'required',
             'servico' => 'required',
             'data' => 'required',
             'hora' => 'required',
-            'telefone' => 'required',
             'valor' => 'required',
         ];
     
         $messages = [
             'nome.required' => 'O campo NOME é obrigatório.',
-            'convenio.required' => 'O campo CONVENIO é obrigatório.',
             'servico.required' => 'O campo TIPO DE SERVIÇO é obrigatório.',
             'data.required' => 'O campo DIA E HORA é obrigatório.',
             'hora.required' => 'O campo DIA E HORA é obrigatório.',
-            'telefone.required' => 'O campo TELEFONE é obrigatório.',
             'valor.required' => 'O campo VALOR é obrigatório.',
         ];
     
@@ -93,14 +91,22 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+         // Recebendo o valor da consulta do usuário através do formulário
+         $valorConsulta = str_replace(',', '.', str_replace('.', '', $request->input('valor')));
+
+         // Convertendo o valor para float
+         $valorConsultaFloat = (float) $valorConsulta;
+
+
         $lac = new Lancamento;
         $lac->name =  $request->nome;
         $lac->convenio = $request->convenio;
         $lac->servico = $request->servico;
         $lac->data = $request->data;
+        $lac->confirmacao = 1;
         $lac->hora = $request->hora;
         $lac->telefone = $request->telefone;
-        $lac->valor = $request->valor;
+        $lac->valor = $valorConsultaFloat;
         $lac->mes = Carbon::now()->format('m');
         $lac->save();
     
@@ -117,9 +123,10 @@ class ProfileController extends Controller
 
         //modulo somar valor mes
         $datames = Carbon::now()->format('m');
-        $v['receita'] = DB::table('lancamentos')->where('mes', $datames)->sum('valor');
-       
-       
+        $valor = DB::table('lancamentos')->where('mes', $datames)->sum('valor');
+        $v['receita'] = number_format($valor, 2, ',', '.');
+
+
         //==========modulo consultas hoje
         $dataConsulta = Carbon::now()->format('Y-m-d');
         $v['consultas'] = DB::table('lancamentos')->where('data', $dataConsulta)->count('data');
@@ -149,6 +156,70 @@ class ProfileController extends Controller
 
         return view('pacientes', $v); 
     }
+
+    public function pacientesAno(){
+
+        $anoAtual = date('Y');
+        $v['listarpacienteAno'] = DB::table('lancamentos')
+            ->whereYear('created_at', $anoAtual)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pacientesAno', $v); 
+    }
+
+
+    public function valorMes(Request $request) {
+        $dataCompleta = $request->input('data_completa'); // Obter a data completa do usuário
+        
+        // Converter a data completa para um objeto DateTime
+        $dataObj = new DateTime($dataCompleta);
+        $ano = $dataObj->format('Y'); // Obtém o ano da data
+        $mes = $dataObj->format('m'); // Obtém o mês da data
+        
+        if($request->all() == null){
+          
+                $mes = $request->input('data_inicio');
+                $v['mes'] = $request->input('ano_mes');
+                $anoAtual = date('Y');  // Obtém o ano atual
+                $mesAtual = date('m');  // Obtém o mês atual
+                
+                $v['listarpacienteAno'] = DB::table('lancamentos')
+                    ->whereYear('created_at', $anoAtual)  // Filtra pelo ano atual
+                    ->whereMonth('created_at', $mesAtual)  // Filtra pelo mês atual
+                    ->orderBy('created_at', 'desc')  // Ordena os resultados
+                    ->get();  // Obtém a lista de registros
+        
+                    $v['totalValor'] = DB::table('lancamentos')
+                    ->whereYear('created_at', $anoAtual)
+                    ->whereMonth('created_at', $mesAtual)
+                    ->sum('valor');
+                    
+        
+                return view('valorMes', $v); 
+        }
+        
+        $anoMes = $request->input('ano_mes'); // Obter o ano e mês no formato "AAAA-MM"
+        $dataFormatada = Carbon::createFromFormat('Y-m', $request->input('ano_mes'));
+
+        $v['mes'] = $dataFormatada->format('m/Y');
+    // Separar o ano e mês da entrada
+    list($ano, $mes) = explode('-', $anoMes);
+
+    $v['listarpacienteAno'] = DB::table('lancamentos')
+        ->whereYear('created_at', $ano)  // Filtra pelo ano
+        ->whereMonth('created_at', $mes)  // Filtra pelo mês
+        ->orderBy('created_at', 'desc')  // Ordena os resultados
+        ->get();  // Obtém a lista de registros
+
+    $v['totalValor'] = DB::table('lancamentos')
+        ->whereYear('created_at', $ano)
+        ->whereMonth('created_at', $mes)
+        ->sum('valor');
+
+    return view('valorMes', $v);
+    }
+    
 
 }
 

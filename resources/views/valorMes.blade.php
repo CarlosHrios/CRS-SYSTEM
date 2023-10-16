@@ -30,20 +30,22 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Administrador') }}
         </h2>
-    </x-slot>
+</x-slot>
 
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                   <b>{{ __("Pacientes Atendidos ") }}</b>
+                   <b>{{ __("Receita mensal Clinica CRS ") }}</b>
                 </div>
-                <div class="p-2 text-gray-900" style="margin-left:40%; margin-top:-6%">
+                
+                <div class="p-2 text-gray-900" style="display: flex; justify-content: flex-end;">
                   <a href="\dashboard">
-                   <button class="botao">Voltar</button>
-                 </a>
-                 </div>
+                      <button class="botao">voltar</button>
+                  </a>
+                </div>
+                
 
 <!-- LISTAGEM DOS PACIENTES HOJE -->
 <div class="col-12">
@@ -62,13 +64,22 @@
         </ul>
       </div>    -->
 
-      <div class="card-body">
-        <h5 class="card-title">Atendidos <span>| Hoje</span></h5>
+      
 
-        <table class="table table-borderless datatable">
+      <div class="card-body">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h5 class="card-title">Receita <span>| mês @if($mes) {{$mes}} @endif</span></h5>
+          <form action="{{ route('profile.valorMes') }}" method="GET">
+              <input class="bgt" type="month" id="ano_mes" name="ano_mes" required>
+              <button type="submit" class="btn btn-link"><h2>Pesquisar🔎</h2></button>
+          </form>
+      </div>
+      
+
+      <span class="card-title" style="font-size: 17px">Total: R$ <b style="color: #067d10; font-size: 22px">{{ number_format($totalValor, 2, ',', '.') }}</b></span>
+        <table class="table table-borderless datatable" style="margin-top: 15px">
           <thead>
             <tr>
-              <th scope="col">Cliente</th>
               <th scope="col">Procedimento</th>
               <th scope="col">Dia</th>
               <th scope="col">Hora</th>
@@ -82,17 +93,15 @@
             <tr>
       
 
-             @foreach ( $listarpaciente as $listarpacientes)
-             <td>{!!$listarpacientes->name!!}</td>                      
+             @foreach ( $listarpacienteAno as $listarpacientes)                     
               <td><a href="#" class="text-primary">{!!$listarpacientes->servico!!}</a></td>
               <td>{!!date('d/m/Y', strtotime($listarpacientes->data))!!}</td>
               <td>{!!$listarpacientes->hora!!}</td>
-              <td>{!!$listarpacientes->valor!!}</td>
+              <td> R$ {{ number_format($listarpacientes->valor, 2, ',', '.') }}</td>
               <td><span class="badge bg-success">Aprovado</span></td>
               <!--<td><span class="badge bg-warning">Pendente</span></td>
               <td><span class="badge bg-danger">Rejeitado</span></td> -->
-              <th scope="col">Editar</th>
-              <th scope="col">Excluir</th>
+             
             </tr>
             @endforeach
 
@@ -106,91 +115,83 @@
   </div><!-- FIM DA LISTAGEM DOS PACIENTES HOJE -->
 
             </div>
-           <style>
-  * {
-margin: 0;
-padding: 0;
-}
+            <style>
 
-#titulo,
-#subtitulo {
-font-family: sans-serif;
-color: #380b61;
-}
-
-fieldset {
-border: 0%;
-}
-
-body {
-background-color: white;
-font-family: sans-serif;
-font-size: 1em;
-color: #59429d;
-
-}
-
-input,
-select,
-textarea,
-button {
-border-radius: 15px;
-}
-
-.campo {
-margin-bottom: 0em;
-margin-left: 10%;
-
-}
-
-.campo label {
-margin-bottom: 0.2em;
-color: #59429d;
-display: block;
-margin-left: 10%;
-}
-
-fieldset.grupo .campo {
-margin: 16px;
-margin-left: 10%;
-}
-
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
-background: rgb(225, 222, 222);
-border-radius: 15px;
-}
-
-.campo select optgroup {
-padding-right: 1em;
-}
-
-.botao {
-font-size: 1.2em;
-background: #1d7580;
-border: 0;
-margin-bottom: 1em;
-color: white;
-padding: 0.2em 0.6em;
-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-transform: translate(-50% -50%);
-margin-left: 90%;
-}
-
-.botao:hover {
-background: #ccbbff;
-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
-text-shadow: none;
-}
-
-.botao select {
-cursor: pointer;
-}
-
-
-</style>
+              .bgt{
+                border-radius: 10px;
+              }
+              * {
+            margin: 0;
+            padding: 0;
+            }
             
+            #titulo,
+            #subtitulo {
+            font-family: sans-serif;
+            color: #380b61;
+            }
+            
+          
+            
+            
+            body {
+            background-color: white;
+            font-family: sans-serif;
+           
+            color: #59429d;
+            
+            }
+            
+            input,
+            select,
+            textarea,
+            button {
+            border-radius: 10px;
+            }
+            
+         
+            
+            
+            .campo label {
+           
+            color: #59429d;
+            display: block;
+            margin-left: 10%;
+            }
+            
+           
+            
+            
+            .campo input:focus,
+            .campo select:focus,
+            .campo textarea:focus {
+            background: rgb(225, 222, 222);
+            border-radius: 10px;
+            }
+            
+           
+            
+            
+            .botao {
+              margin-top: -160%;
+            background: #1d7580;
+            border: 0;
+            margin-bottom: 1em;
+            color: white;
+         
+            }
+            
+            .botao:hover {
+            background: #ccbbff;
+            box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: none;
+            }
+            
+            .botao select {
+            cursor: pointer;
+            }
+            
+            
+            </style>
 
 </x-app-layout>

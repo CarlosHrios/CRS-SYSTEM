@@ -6,6 +6,9 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+ 
 
 
 
@@ -57,13 +60,14 @@
                 <div class="p-6 text-gray-900">
                    <b>{{ __("Lancamento de Consultas") }}</b>
                 </div>
+                <div class="p-6 text-gray-900" style="margin-left:40%; margin-top:-6%">
+                 <a href="\dashboard">
+                  <button class="botao">Voltar</button>
+                </a>
+                </div>
 
     <title>Formulário de Cadastro</title>
-    @if(Session::has('success'))
-        <p>{{ Session::get('success') }}</p>
-    @endif
-
-    
+   
     <form class="row g-3 needs-validation" method="get" action="/lancamento" novalidate>
 
         <div class="col-md-4 position-relative  campo">
@@ -104,13 +108,13 @@
         </div>
 
         <div class="col-md-4 position-relative  campo">
+          <script>
+            $(function () { //ready
+                $("#valor").maskMoney({thousands: ".", decimal: ","});
+            });
+          </script>
             <label for="validationTooltip05" class="form-label">Valor R$</label>
-            <input type="text" class="form-control" id="valor" name="valor" value="" required>
-            <script>
-              $(document).ready(function() {
-                $('#valor').mask('000000,00', {reverse: true});
-              });
-              </script>
+            <input type="text" id="valor" name="valor" value="" />
           </div>
           
         <div class="col-12">
@@ -175,9 +179,9 @@ margin: 16px;
 margin-left: 10%;
 }
 
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
+.campo input,
+.campo select,
+.campo textarea {
 background: rgb(225, 222, 222);
 border-radius: 15px;
 }

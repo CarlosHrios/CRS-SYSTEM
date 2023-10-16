@@ -217,7 +217,7 @@
    * Clients Slider
    */
   new Swiper('.gallery-slider', {
-    speed: 400,
+    speed: 300,
     loop: true,
     centeredSlides: true,
     autoplay: {

@@ -21,7 +21,8 @@ return new class extends Migration
                 $table->string('data');
                 $table->string('hora');
                 $table->string('telefone');
-                $table->string('valor');
+                $table->integer('confirmacao');
+                $table->decimal('valor', 10, 2);
                 $table->string('mes');
                 $table->timestamps();
         });

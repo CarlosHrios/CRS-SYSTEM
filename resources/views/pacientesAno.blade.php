@@ -63,7 +63,7 @@
       </div>    -->
 
       <div class="card-body">
-        <h5 class="card-title">Atendidos <span>| Hoje</span></h5>
+        <h5 class="card-title">Atendidos <span>| Ano</span></h5>
 
         <table class="table table-borderless datatable">
           <thead>
@@ -82,7 +82,7 @@
             <tr>
       
 
-             @foreach ( $listarpaciente as $listarpacientes)
+             @foreach ( $listarpacienteAno as $listarpacientes)
              <td>{!!$listarpacientes->name!!}</td>                      
               <td><a href="#" class="text-primary">{!!$listarpacientes->servico!!}</a></td>
               <td>{!!date('d/m/Y', strtotime($listarpacientes->data))!!}</td>
@@ -91,8 +91,7 @@
               <td><span class="badge bg-success">Aprovado</span></td>
               <!--<td><span class="badge bg-warning">Pendente</span></td>
               <td><span class="badge bg-danger">Rejeitado</span></td> -->
-              <th scope="col">Editar</th>
-              <th scope="col">Excluir</th>
+             
             </tr>
             @endforeach
 
@@ -106,91 +105,90 @@
   </div><!-- FIM DA LISTAGEM DOS PACIENTES HOJE -->
 
             </div>
-           <style>
-  * {
-margin: 0;
-padding: 0;
-}
-
-#titulo,
-#subtitulo {
-font-family: sans-serif;
-color: #380b61;
-}
-
-fieldset {
-border: 0%;
-}
-
-body {
-background-color: white;
-font-family: sans-serif;
-font-size: 1em;
-color: #59429d;
-
-}
-
-input,
-select,
-textarea,
-button {
-border-radius: 15px;
-}
-
-.campo {
-margin-bottom: 0em;
-margin-left: 10%;
-
-}
-
-.campo label {
-margin-bottom: 0.2em;
-color: #59429d;
-display: block;
-margin-left: 10%;
-}
-
-fieldset.grupo .campo {
-margin: 16px;
-margin-left: 10%;
-}
-
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
-background: rgb(225, 222, 222);
-border-radius: 15px;
-}
-
-.campo select optgroup {
-padding-right: 1em;
-}
-
-.botao {
-font-size: 1.2em;
-background: #1d7580;
-border: 0;
-margin-bottom: 1em;
-color: white;
-padding: 0.2em 0.6em;
-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-transform: translate(-50% -50%);
-margin-left: 90%;
-}
-
-.botao:hover {
-background: #ccbbff;
-box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
-text-shadow: none;
-}
-
-.botao select {
-cursor: pointer;
-}
-
-
-</style>
+            <style>
+              * {
+            margin: 0;
+            padding: 0;
+            }
             
+            #titulo,
+            #subtitulo {
+            font-family: sans-serif;
+            color: #380b61;
+            }
+            
+            fieldset {
+            border: 0%;
+            }
+            
+            body {
+            background-color: white;
+            font-family: sans-serif;
+            font-size: 1em;
+            color: #59429d;
+            
+            }
+            
+            input,
+            select,
+            textarea,
+            button {
+            border-radius: 15px;
+            }
+            
+            .campo {
+            margin-bottom: 0em;
+            margin-left: 10%;
+            
+            }
+            
+            .campo label {
+            margin-bottom: 0.2em;
+            color: #59429d;
+            display: block;
+            margin-left: 10%;
+            }
+            
+            fieldset.grupo .campo {
+            margin: 16px;
+            margin-left: 10%;
+            }
+            
+            .campo input:focus,
+            .campo select:focus,
+            .campo textarea:focus {
+            background: rgb(225, 222, 222);
+            border-radius: 15px;
+            }
+            
+            .campo select optgroup {
+            padding-right: 1em;
+            }
+            
+            .botao {
+            font-size: 1.2em;
+            background: #1d7580;
+            border: 0;
+            margin-bottom: 1em;
+            color: white;
+            padding: 0.2em 0.6em;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+            transform: translate(-50% -50%);
+            margin-left: 90%;
+            }
+            
+            .botao:hover {
+            background: #ccbbff;
+            box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: none;
+            }
+            
+            .botao select {
+            cursor: pointer;
+            }
+            
+            
+            </style>
 
 </x-app-layout>

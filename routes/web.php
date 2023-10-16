@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/calendario', [ProfileController::class, 'calendario'])->name('profile.calendar');
     Route::get('/lancamento', [ProfileController::class, 'lancamento'])->name('profile.lancamento');
     Route::get('/pacientes', [ProfileController::class, 'pacientesDetalhe']);
+    Route::get('/pacientesAno', [ProfileController::class, 'pacientesAno']);
+    Route::get('/resMes', [ProfileController::class, 'valorMes'])->name('profile.valorMes');
     //======= modulo agendamento
     Route::get('/agendamento', [ProfileController::class, 'agendamento'])->name('profile.agendamento');
     Route::get('/lancarAgenda', [ProfileController::class, 'lancarAgenda'])->name('profile.lancarAgenda');
